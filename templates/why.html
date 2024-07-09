@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Use It - Your App Name</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif; /* Default font */
+            background-color: #f2f2f2; /* Light gray background */
+        }
+        nav {
+            background-color: #738b83; /* Dark background for navigation */
+            color: #fff; /* Light text color for navigation */
+            padding: 10px 20px;
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff; /* White background for main content */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        }
+        .box {
+            background-color: #f2f2f2; /* Light gray background for boxes */
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/why">Why Use It</a></li>
+            <li><a href="/contact">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <h1>Why Use It</h1>
+    </header>
+
+    <!-- Main Content -->
+    <section id="why" class="container">
+        <div class="box">
+            <h2>Enhance Your Design</h2>
+            <p>Our app simplifies the process of creating stickers from images. Whether for personal use or professional communication, converting images to stickers has never been easier. Start creating unique stickers today!</p>
+        </div>
+
+        <div class="box">
+            <h2>Simple and Intuitive</h2>
+            <p>Create stickers effortlessly with our intuitive interface. No technical skills required. Remove any image background and replace it using any other design app for fun, business, or personal expression.</p>
+        </div>
+
+        <div class="box">
+            <h2>Professional Quality</h2>
+            <p>Enjoy high-quality sticker output with our advanced image processing technology. Ensure that your image maintain clarity and sharpness.</p>
+        </div>
+
+        <div class="box">
+            <h2>Start Creating Today</h2>
+            <p>Join thousands who use our app to transform images into expressive stickers. Whether you're a designer, marketer, or enthusiast, unleash your creativity and elevate your visual communication.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 <img src="{{ url_for('static', filename='images/logo.png') }}" alt="LA LAB Logo" style="height: 3.5em; vertical-align: middle;"> All rights reserved.</p>
+    </footer>
+</body>
+</html>

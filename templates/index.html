@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ 
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Removal Tool - Enhance Design with Custom Backgrounds</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+
+</head>
+<body>
+    <!-- Navigation bar -->
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/why">Why Use It</a></li>
+            <li><a href="/contact">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header with upload form -->
+    <header>
+        <h1>Background Removal Tool</h1>
+        <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+            <div class="file-upload-wrapper">
+                <input type="file" id="fileInput" name="file" style="display: none;" onchange="handleFileSelect(event)">
+                <div class="file-upload-box" id="fileUploadBox" ondragover="handleDragOver(event)" ondrop="handleDrop(event)">
+                    <p>Click to select a file</p>
+                </div>
+                <div id="imagePreview"></div>
+            </div>
+            <input type="submit" id="uploadButton" value="Start" disabled>
+        </form>
+    </header>
+    
+    <!-- About section -->
+    <section id="about">
+        <div class="container">
+            <h2>About the Background Removal Tool</h2>
+            <p>The Background Removal Tool allows you to enhance your designs by easily removing backgrounds from images. Once the background is removed, you can seamlessly integrate your objects into new settings or apply custom backgrounds to suit your design needs.</p>
+        </div>
+    </section>
+
+    <!-- Why Use It section -->
+    <section id="why">
+        <div class="container">
+            <h2>Why Use the Background Removal Tool</h2>
+            <p>The Background Removal Tool simplifies the process of isolating objects from their backgrounds, enabling you to create stunning designs with custom backgrounds. Whether you're designing graphics, product images, or artwork, our tool enhances your creative possibilities.</p>
+        </div>
+    </section>
+
+    <!-- Privacy Policy section -->
+    <section id="privacy-policy">
+        <div class="container">
+            <h2>Privacy Policy</h2>
+            <p>Your privacy is our priority. We use uploaded images solely for background removal purposes and do not store or use them for any other reasons. For more details on how we handle your data, please refer to our <a href="/privacy" style="color: #4CAF50; text-decoration: none;">Privacy Policy</a>.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 <img src="{{ url_for('static', filename='images/logo.png') }}" alt="LA LAB Logo" style="height: 3.5em; vertical-align: middle;"> All rights reserved.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        document.getElementById('fileUploadBox').addEventListener('click', function() {
+            document.getElementById('fileInput').click();
+        });
+
+        function handleFileSelect(event) {
+            const fileInput = event.target;
+            const file = fileInput.files[0];
+            processFile(file);
+        }
+
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            event.dataTransfer.dropEffect = 'copy';
+            document.getElementById('fileUploadBox').style.backgroundColor = '#4b6354';
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            document.getElementById('fileUploadBox').style.backgroundColor = '';
+            const file = event.dataTransfer.files[0];
+            processFile(file);
+        }
+
+        function processFile(file) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const imgElement = document.createElement('img');
+                imgElement.src = e.target.result;
+                imgElement.classList.add('preview-img');
+                const imagePreview = document.getElementById('imagePreview');
+                imagePreview.innerHTML = '';
+                imagePreview.appendChild(imgElement);
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+                document.getElementById('uploadButton').disabled = false;
+            }
+        }
+
+        function showLoading() {
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = 'loading';
+            loadingDiv.innerHTML = `
+                <p>Processing your image. Please wait...</p>
+                <img src="{{ url_for('static', filename='images/loading.gif') }}" alt="Loading...">
+            `;
+            document.body.appendChild(loadingDiv);
+        }
+    </script>
+</body>
+</html>

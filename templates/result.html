@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        body {
+            background-color: #f2f2f2; /* Light gray background */
+            font-family: Arial, sans-serif; /* Default font */
+        }
+        nav {
+            background-color: #738b83; /* Dark background for navigation */
+            color: #fff; /* Light text color for navigation */
+            padding: 10px 20px;
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff; /* White background for main content */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        }
+        .image-container {
+            margin-top: 20px;
+            text-align: center;
+            padding: 10px; /* Padding for spacing */
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+            border: 2px solid #ccc; /* Gray border around the image */
+            background-image:
+                linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%, #ccc),
+                linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%, #ccc);
+            background-size: 15px 15px; /* Size of the pattern boxes */
+        }
+        .image-container img {
+            max-width: 100%; /* Ensure image is responsive */
+            height: auto; /* Maintain aspect ratio */
+            max-height: 300px; /* Limit maximum height to 300px */
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+        .download-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px; /* Increased margin-top for spacing */
+        }
+        .download-link a {
+            text-decoration: none;
+            background-color: #4CAF50; /* Green background for download link */
+            color: white; /* White text color */
+            padding: 10px 20px; /* Padding for download link */
+            border-radius: 5px; /* Rounded corners */
+            transition: background-color 0.3s; /* Smooth transition for background color */
+        }
+        .download-link a:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+        .feedback {
+            margin-top: 30px; /* Space between image container and feedback section */
+            text-align: center;
+        }
+        .feedback p {
+            margin-bottom: 10px; /* Space between paragraphs */
+        }
+        .feedback button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .feedback button:hover {
+            background-color: #555;
+        }
+        .feedback p {
+            margin-bottom: 10px; /* Space between paragraphs */
+        }
+        .feedback a {
+            color: #24342c; /* Blue color for email link */
+        }
+        .feedback a:hover {
+            text-decoration: underline; /* Underline on hover */
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/why">Why Use It</a></li>
+            <li><a href="/contact">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>Background Removed Image</h1>
+        </header>
+        
+        <!-- Display processed image -->
+        <div id="result">
+            <p>Processing your image, please wait...</p>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const filename = '{{ filename }}';
+                const resultDiv = document.getElementById('result');
+                const imageUrl = `/uploads/${filename}`;
+
+                function checkStatus() {
+                    fetch(`/status/${filename}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'ready') {
+                                const img = document.createElement('img');
+                                img.src = imageUrl;
+                                img.alt = 'Processed Image';
+                                
+                                const imageContainer = document.createElement('div');
+                                imageContainer.classList.add('image-container');
+                                imageContainer.appendChild(img);
+                                
+                                resultDiv.innerHTML = '';  // Clear the previous content
+                                resultDiv.appendChild(imageContainer);
+                                
+                                const downloadLink = document.createElement('div');
+                                downloadLink.classList.add('download-link');
+                                downloadLink.innerHTML = `
+                                    <a href="${imageUrl}" download="no-bg-${filename}">Download Image</a>
+                                `;
+                                resultDiv.appendChild(downloadLink);
+                            } else {
+                                setTimeout(checkStatus, 2000);  // Check again after 2 seconds
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                }
+
+                checkStatus();  // Start checking the status
+            });
+        </script>
+
+        <!-- Feedback section -->
+        <div class="feedback">
+            <p>If you feel that the generated outcome is not what you expected and have any improvements to suggest, please email us at <a href="mailto:thelalabmy@gmail.com">thelalabmy@gmail.com</a>.</p>
+        </div>
+    </div>
+</body>
+</html>
