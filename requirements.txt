@@ -3,4 +3,3 @@ numpy==1.22.0
 opencv-python==4.5.5
 Pillow==8.4.0
 rembg==1.0.38
-distutils
