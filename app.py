@@ -5,6 +5,7 @@ from rembg import remove
 import threading
 from datetime import datetime, timedelta
 from apscheduler.schedulers.background import BackgroundScheduler
+import pytz
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
@@ -36,7 +37,7 @@ def delete_old_files():
             print(f"Error deleting {file_path}: {e}")
 
 # Schedule the cleanup task to run daily
-scheduler = BackgroundScheduler()
+scheduler = BackgroundScheduler(timezone=pytz.UTC)
 scheduler.add_job(delete_old_files, 'interval', days=1)
 scheduler.start()
 
