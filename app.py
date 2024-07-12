@@ -17,11 +17,18 @@ def allowed_file(filename):
 
 # Function to remove the background from the image
 def process_image(input_path, output_path):
-    with open(input_path, 'rb') as input_file:
-        input_data = input_file.read()
-        output_data = remove(input_data)
-        with open(output_path, 'wb') as output_file:
-            output_file.write(output_data)
+   try:
+        with open(input_path, 'rb') as input_file:
+            input_data = input_file.read()
+            output_data = remove(input_data)
+            with open(output_path, 'wb') as output_file:
+                output_file.write(output_data)
+    except Exception as e:
+        print(f"Error processing {input_path}: {e}")
+    finally:
+        # Clean up to free memory
+        if os.path.exists(input_path):
+            os.remove(input_path)
 
 # Function to delete old files (older than 1 day)
 def delete_old_files():
